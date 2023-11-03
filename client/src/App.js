@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar/Navbar";
-import Form from "./components/Form/Form";
+import Landing from "./components/Landing/Landing";
+import CovGen from "./components/CovGen/CovGen";
+import About from "./components/About/About";
 
 function App() {
   /*
@@ -17,7 +19,9 @@ function App() {
   return (
     <div className="App">
       <NavBar></NavBar>
-      <Form></Form>
+      <Landing></Landing>
+      <CovGen></CovGen>
+      <About></About>
       <p className="message"></p>
     </div>
   );
