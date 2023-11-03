@@ -1,0 +1,16 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.linkedin {
+  display: block;
+  margin-bottom: 10px; /* Add some space below the button */
+}
+
+.company {
+  display: block;
+  margin-bottom: 10px; /* Add some space below the input */
+}
