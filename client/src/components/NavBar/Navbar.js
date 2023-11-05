@@ -16,10 +16,8 @@ function NavBar() {
             duration={500}
             style={{
               cursor: "pointer",
-              border: "1px solid #ccc",
               padding: "5px 10px",
               borderRadius: "5px",
-              background: "lightgray",
               color: "black",
             }}
           >
@@ -36,10 +34,8 @@ function NavBar() {
             duration={500}
             style={{
               cursor: "pointer",
-              border: "1px solid #ccc",
               padding: "5px 10px",
               borderRadius: "5px",
-              background: "lightgray",
               color: "black",
             }}
           >
@@ -56,10 +52,8 @@ function NavBar() {
             duration={500}
             style={{
               cursor: "pointer",
-              border: "1px solid #ccc",
               padding: "5px 10px",
               borderRadius: "5px",
-              background: "lightgray",
               color: "black",
             }}
           >
