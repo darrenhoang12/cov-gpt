@@ -1,3 +1,30 @@
 .about {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     height: 100vh;
+}
+
+.centered-h1 {
+    text-align: center;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 800px; /* Adjust the maximum width as needed */
+}
+
+.tech {
+    display: flex;
+    width: 250px; /* Limit the maximum width of each item */
+    height: 100px; /* Adjust the height as needed */
+    align-items: center;
+    justify-content: center;
+    margin: 5px; /* Add margin for spacing between items */
+    background-color: #0073e6;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
 }
