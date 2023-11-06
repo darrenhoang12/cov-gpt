@@ -4,7 +4,20 @@ import { Link } from "react-scroll";
 function NavBar() {
   return (
     <nav>
-      <h1 className="logo">CovGPT</h1>
+      <Link
+        className="link logo"
+        activeClass="active"
+        to="landing"
+        spy={true}
+        smooth={true}
+        offset={0}
+        duration={500}
+        style={{
+          cursor: "pointer",
+        }}
+      >
+        CovGPT
+      </Link>
       <ul className="menu">
         <li>
           <Link
@@ -17,8 +30,6 @@ function NavBar() {
             duration={500}
             style={{
               cursor: "pointer",
-              padding: "5px 10px",
-              borderRadius: "5px",
             }}
           >
             HOME
@@ -34,8 +45,6 @@ function NavBar() {
             duration={500}
             style={{
               cursor: "pointer",
-              padding: "5px 10px",
-              borderRadius: "5px",
             }}
           >
             GENERATE
@@ -51,8 +60,6 @@ function NavBar() {
             duration={500}
             style={{
               cursor: "pointer",
-              padding: "5px 10px",
-              borderRadius: "5px",
             }}
           >
             ABOUT

@@ -1,8 +1,7 @@
 .form-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  align-items: flex-start;
 }
 
 form {
@@ -60,7 +59,6 @@ input {
   padding-right: 10px;
   padding-left: 10px;
   color: grey;
-  
 }
 
 .input-icon-span {

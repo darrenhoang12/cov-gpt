@@ -1,51 +1,5 @@
 .about {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
-}
-
-.centered-h1 {
-  text-align: center;
-  color: black;
-}
-
-.tech-stack {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 800px; /* Adjust the maximum width as needed */
-}
-
-.tech {
-  display: flex;
-  width: 230px; /* Limit the maximum width of each item */
-  height: 125px; /* Adjust the height as needed */
-  align-items: center;
-  justify-content: center;
-  margin: 5px; /* Add margin for spacing between items */
-  background-color: rgb(243 244 246);
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.react {
-  width: 150px;
-}
-
-.node {
-  width: 75px;
-}
-
-.chatgpt {
-  width: 150px;
-}
-
-.cheerio {
-  width: 75px;
-}
-
-.github {
-  width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

@@ -9,15 +9,46 @@
 
 .landing h1 {
   width: 60%;
-  font-size: 4rem;
 }
 
 .landing p {
   margin: 2.5px;
   width: 60%;
-  font-size: 1.5rem;
 }
 
 .landing * {
   color: black;
+}
+
+@media only screen and (min-width: 1000px) {
+  .landing h1 {
+    font-size: 3rem;
+  }
+
+  .landing p {
+    font-size: 1.2rem;
+  }
+
+}
+
+@media only screen and (min-width: 1200px) {
+  .landing h1 {
+    font-size: 3.5rem;
+  }
+
+  .landing p {
+    font-size: 1.35rem;
+  }
+
+}
+
+@media only screen and (min-width: 1500px) {
+  .landing h1 {
+    font-size: 4rem;
+  }
+
+  .landing p {
+    font-size: 1.5rem;
+  }
+
 }
