@@ -6,8 +6,8 @@
 }
 
 form {
-  border: 1px solid #ccc;
-  background-color: #eeeeee;
+  border: 1px solid lightgray;
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 5px;
   padding: 30px;
   width: 800px;
@@ -25,8 +25,8 @@ label {
 }
 
 .input-element {
-  display: flex; /* Add display: flex */
-  align-items: center; /* Vertically align the contents */
+  display: flex;
+  align-items: center;
 }
 
 input {
@@ -35,10 +35,12 @@ input {
   border: 1px solid #ccc;
   padding: 5px;
   border-radius: 0 5px 5px 0;
+  font-family: Poppins;
 }
 
 .generate-button {
   background-color: #0073e6;
+  font-weight: bold;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -57,6 +59,7 @@ input {
   width: 1rem;
   padding-right: 10px;
   padding-left: 10px;
+  color: grey;
   
 }
 
@@ -67,4 +70,5 @@ input {
   align-items: center;
   display: inline-flex;
   border-radius: 5px 0 0 5px;
+  background-color: rgb(243 244 246);
 }

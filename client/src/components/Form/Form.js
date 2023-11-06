@@ -9,8 +9,7 @@ function Form() {
           <div className="input-element">
             <span className="input-icon-span">
               <svg
-                className="input-icon"
-                class="w-4 h-4 text-gray-500"
+                class="input-icon"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -31,13 +30,12 @@ function Form() {
           <div className="input-element">
             <span className="input-icon-span">
               <svg
-                className="input-icon"
+                class="input-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-4 h-4 font-semibold text-gray-500"
               >
                 <path
                   stroke-linecap="round"

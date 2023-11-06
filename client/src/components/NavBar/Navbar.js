@@ -8,6 +8,7 @@ function NavBar() {
       <ul className="menu">
         <li>
           <Link
+            className="link"
             activeClass="active"
             to="landing"
             spy={true}
@@ -18,7 +19,6 @@ function NavBar() {
               cursor: "pointer",
               padding: "5px 10px",
               borderRadius: "5px",
-              color: "black",
             }}
           >
             HOME
@@ -36,7 +36,6 @@ function NavBar() {
               cursor: "pointer",
               padding: "5px 10px",
               borderRadius: "5px",
-              color: "black",
             }}
           >
             GENERATE
@@ -54,7 +53,6 @@ function NavBar() {
               cursor: "pointer",
               padding: "5px 10px",
               borderRadius: "5px",
-              color: "black",
             }}
           >
             ABOUT
