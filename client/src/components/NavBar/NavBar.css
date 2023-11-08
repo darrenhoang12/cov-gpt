@@ -4,14 +4,13 @@ nav {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 50px;
+  background-image: url("../../../public/background.png");
 }
 
 .logo {
   width: 20%;
   margin: 0;
   padding-left: 80px;
-  padding-top: 100px;
   font-size: 2rem;
   transition: color 0.3s, text-shadow 0.3s;
 }
@@ -23,7 +22,11 @@ nav {
   padding: 0;
   margin: 0;
   padding-right: 50px;
-  padding-top: 100px;
+}
+
+.logo, .menu {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .menu li {

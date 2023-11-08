@@ -4,12 +4,27 @@ import QAItem from "../QAItem/QAItem";
 function QAPage() {
   const qaData = [
     {
+      question: "What inspired CovGPT?",
+      answer:
+        `As a university student in Computer Science, there's always a struggle balancing a variety of aspects in life, including job-hunting. 
+         With job hunting comes the tedious process of drafting cover letters for openings that require them. Because cover letters are a summary
+         of how your professional career tie into the company you are applying for, feeding this information into a generative AI like
+         ChatGPT could create a great cover letter.`,
+    },
+    {
       question: "What does CovGPT do?",
-      answer: "Description for what CovGPT does",
+      answer: "CovGPT takes in minimal information: just your LinkedIn profile and the company of choice, and generates a unique cover letter for you in seconds!",
     },
     {
       question: "How was CovGPT built?",
-      answer:"Description on how CovGPT was built",
+      answer: 
+      `CovGPT was built with React for the client side and NodeJS (Express) for the server side. I implemented the ChatGPT API to provide the
+       generated cover letter given the inputted information.`,
+    },
+    {
+      question: "Who was this made by?",
+      answer:
+        "This was built by me, Darren Hoang. Find out more about me on my website or LinkedIn!",
     },
   ];
 
