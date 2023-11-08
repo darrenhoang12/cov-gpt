@@ -1,6 +1,17 @@
 import "./Form.css";
+import React, { useState } from "react";
 
 function Form() {
+  const [linkedin, setLinkedin] = useState("");
+  const [company, setCompany] = useState("company");
+
+  const generateLetter = (e) => {
+    e.preventDefault();
+
+    console.log(company);
+    console.log(linkedin);
+  };
+
   return (
     <div className="form-container">
       <form>
@@ -9,7 +20,7 @@ function Form() {
           <div className="input-element">
             <span className="input-icon-span">
               <svg
-                class="input-icon"
+                className="input-icon"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -22,6 +33,8 @@ function Form() {
               type="text"
               className="linkedin"
               placeholder="https://linkedin.com/in/John-Doe"
+              value={linkedin}
+              onChange={(e) => setLinkedin(e.target.value)}
             ></input>
           </div>
         </div>
@@ -30,16 +43,16 @@ function Form() {
           <div className="input-element">
             <span className="input-icon-span">
               <svg
-                class="input-icon"
+                className="input-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"
                 ></path>
               </svg>
@@ -48,10 +61,14 @@ function Form() {
               type="text"
               className="company"
               placeholder="Experian"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
             ></input>
           </div>
         </div>
-        <button className="generate-button">Generate</button>
+        <button className="generate-button" onClick={generateLetter}>
+          Generate
+        </button>
       </form>
     </div>
   );
