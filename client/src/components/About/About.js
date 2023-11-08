@@ -1,13 +1,13 @@
 import "./About.css";
 import { Element } from "react-scroll";
 import Tech from "../Tech/Tech";
-import Faq from "../Faq/Faq";
+import QAPage from "../QAPage/QAPage";
 
 function About() {
   return (
     <Element className="about" name="about">
       <Tech></Tech>
-      <Faq></Faq>
+      <QAPage></QAPage>
     </Element>
   );
 }
