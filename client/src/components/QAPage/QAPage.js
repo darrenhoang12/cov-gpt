@@ -24,7 +24,8 @@ function QAPage() {
     {
       question: "Who was this made by?",
       answer:
-        "This was built by me, Darren Hoang. Find out more about me on my website or LinkedIn!",
+        `This was built by me, Darren Hoang. Find out more about me on my <a href='https://darrenhoang.com/' target='_blank'>website</a>
+         or <a href='https://www.linkedin.com/in/darrenhoang/' target='_blank'>LinkedIn!</a>`,
     },
   ];
 

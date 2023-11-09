@@ -11,7 +11,12 @@ const QAItem = ({ question, answer, isLastItem }) => {
         {question}
         {showAnswer ? <MinusIcon /> : <PlusIcon />}
       </div>
-      {showAnswer && <div className="answer">{answer}</div>}
+      {showAnswer && (
+        <div
+          className="answer"
+          dangerouslySetInnerHTML={{ __html: answer }}
+        ></div>
+      )}
       {!isLastItem && <hr />}
     </div>
   );
