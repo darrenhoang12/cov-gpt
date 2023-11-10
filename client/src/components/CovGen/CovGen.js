@@ -4,19 +4,31 @@ import React, { useState } from "react";
 import Typewriter from "typewriter-effect";
 
 function CovGen() {
+  const serverURL = 'http://localhost:3001';
   const [linkedin, setLinkedin] = useState("");
   const [company, setCompany] = useState("");
   const [showOutput, setShowOutput] = useState(false);
   const [typewriterKey, setTypewriterKey] = useState(0);
-  const text = `I'm Darren and I’m At UCI majoring in computer science! 
+  const coverLetter = `I'm Darren and I’m At UCI majoring in computer science! 
     I’m a hardworking student with strong leadership skills who has a passion for software and creating valuable insights through data. 
     I’m looking for opportunities in data analysis, data science, and software engineering to sharpen my technical skills and learn industry practices.`;
 
-  const generateLetter = (e) => {
+  const generateLetter = async (e) => {
     e.preventDefault();
 
-    console.log(company);
-    console.log(linkedin);
+    if (!linkedin || !company) {
+      alert("Please fill in both LinkedIn and Company fields.");
+      return;
+    }
+
+    try {
+      console.log('trying fetch');
+      const response = await fetch(`${serverURL}/${encodeURIComponent(linkedin)}/${company}`);
+      const data = await response.json();
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
 
     setShowOutput(true);
     setTypewriterKey((prevKey) => prevKey + 1);
@@ -93,7 +105,7 @@ function CovGen() {
         <Typewriter
           key={typewriterKey}
           onInit={(typewriter) => {
-            typewriter.pauseFor(500).typeString(text).start();
+            typewriter.pauseFor(500).typeString(coverLetter).start();
           }}
           options={{
             speed: 50,
@@ -102,8 +114,8 @@ function CovGen() {
         />
       </div>
       {showOutput && (
-        <button className="generate-button" onClick={resetForm}>
-          Generate Again
+        <button className="generate-button restart" onClick={resetForm}>
+          Restart
         </button>
       )}
     </Element>
