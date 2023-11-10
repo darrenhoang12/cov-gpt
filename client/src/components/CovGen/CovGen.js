@@ -25,6 +25,10 @@ function CovGen() {
       console.log('trying fetch');
       const response = await fetch(`${serverURL}/${encodeURIComponent(linkedin)}/${company}`);
       const data = await response.json();
+      if (data.linkedin === 'invalid_url') {
+        alert('Please enter a valid LinkedIn URL.');
+        return;
+      }
       console.log(data);
     } catch (err) {
       console.error(err);
