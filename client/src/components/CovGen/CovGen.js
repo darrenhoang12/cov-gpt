@@ -2,16 +2,16 @@ import "./CovGen.css";
 import { Element } from "react-scroll";
 import React, { useState } from "react";
 import Typewriter from "typewriter-effect";
+import { ReactComponent as LoadingIcon } from "./loading.svg";
 
 function CovGen() {
-  const serverURL = 'http://localhost:3001';
+  const serverURL = "http://localhost:3001";
   const [linkedin, setLinkedin] = useState("");
   const [company, setCompany] = useState("");
   const [showOutput, setShowOutput] = useState(false);
   const [typewriterKey, setTypewriterKey] = useState(0);
-  const coverLetter = `I'm Darren and I’m At UCI majoring in computer science! 
-    I’m a hardworking student with strong leadership skills who has a passion for software and creating valuable insights through data. 
-    I’m looking for opportunities in data analysis, data science, and software engineering to sharpen my technical skills and learn industry practices.`;
+  const [coverLetter, setCoverLetter] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const generateLetter = async (e) => {
     e.preventDefault();
@@ -22,16 +22,21 @@ function CovGen() {
     }
 
     try {
-      console.log('trying fetch');
-      const response = await fetch(`${serverURL}/${encodeURIComponent(linkedin)}/${company}`);
+      setLoading(true);
+      
+      const response = await fetch(
+        `${serverURL}/${encodeURIComponent(linkedin)}/${company}`
+      );
       const data = await response.json();
-      if (data.linkedin === 'invalid_url') {
-        alert('Please enter a valid LinkedIn URL.');
+      if (data.linkedin === "invalid_url") {
+        alert("Please enter a valid LinkedIn URL.");
         return;
       }
-      console.log(data);
+      setCoverLetter(data.result.replace(/\n/g, '<br>'));
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
 
     setShowOutput(true);
@@ -39,6 +44,7 @@ function CovGen() {
   };
 
   const resetForm = () => {
+    setCoverLetter("");
     setShowOutput(false);
     setLinkedin("");
     setCompany("");
@@ -100,8 +106,16 @@ function CovGen() {
               ></input>
             </div>
           </div>
-          <button className="generate-button" onClick={generateLetter}>
-            Generate
+          <button
+            className="generate-button"
+            onClick={generateLetter}
+            disabled={loading}
+          >
+            {loading ? (
+              <LoadingIcon className="loading-icon"/> // Use the loaded SVG as a React component
+            ) : (
+              "Generate"
+            )}
           </button>
         </form>
       </div>
