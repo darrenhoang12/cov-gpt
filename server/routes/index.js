@@ -2,6 +2,14 @@ const fs = require('fs');
 const axios = require("axios");
 var express = require("express");
 var router = express.Router();
+require('dotenv').config();
+const Configuration = require('openai');
+const OpenAIApi = require('openai');
+
+const configuration = new Configuration({
+  apiKey: process.env.OPEN_AI_KEY
+});
+const openai = new OpenAIApi(configuration);
 
 let jsonData;
 
@@ -12,7 +20,6 @@ fs.readFile('key.json', 'utf8', (err, data) => {
   }
 
   jsonData = JSON.parse(data);
-  console.log(jsonData);
 })
 
 const baseUrl = "https://www.linkedin.com/in";
@@ -34,6 +41,15 @@ const getLinkedInData = async (linkedinUrl) => {
   return response;
 };
 
+const generateCoverLetter = async (prompt) => {
+  const completion = await openai.chat.completions.create({
+    messages: [{role: 'system', content: prompt}],
+    model: 'gpt-3.5-turbo-16k-0613'
+  })
+  console.log(completion.choices[0]);
+  return completion.choices[0].message.content;
+}
+
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.json({ message: "Hello from the server!" });
@@ -41,8 +57,6 @@ router.get("/", function (req, res, next) {
 
 router.get("/:linkedin/:company", async (req, res, next) => {
   const { linkedin, company } = req.params;
-  console.log(baseUrl);
-  console.log(linkedin);
   if (!linkedin.includes(baseUrl)) {
     res.json({ linkedin: "invalid_url" });
     return;
@@ -60,7 +74,6 @@ router.get("/:linkedin/:company", async (req, res, next) => {
       description: extractedData.description,
     }
     */
-    console.log(jsonData);
     const dataToGPT = {
       name: "Darren Hoang",
       education: [
@@ -99,9 +112,10 @@ router.get("/:linkedin/:company", async (req, res, next) => {
       const company = dataToGPT.worksFor[i];
       jobStr += `${job} at ${company.name},`
     }
-    const gptPrompt = `name: ${dataToGPT.name} education: ${educationStr} job experience: ${jobStr} write a cover letter for ${company}. Include just the letter, no header.`;
+    const gptPrompt = `name: ${dataToGPT.name} education: ${educationStr} job experience: ${jobStr} write a cover letter for ${company}. No heading.`;
     console.log(gptPrompt);
-    res.json(dataToGPT);
+    const coverLetter = await generateCoverLetter(gptPrompt);
+    res.json({result: coverLetter});
   } catch (err) {
     console.log(err);
   }
