@@ -28,9 +28,9 @@ function Tech() {
         </div>
         <div className="tech">
           <img
-            className="cheerio"
-            src="https://cheerio.js.org/img/orange-c.svg"
-            alt="cheerio"
+            className="rapidapi"
+            src="https://upload.wikimedia.org/wikipedia/commons/6/62/RapidAPI_logo.svg"
+            alt="rapidapi"
           />
         </div>
         <div className="tech">
