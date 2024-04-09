@@ -1,7 +1,81 @@
 import "./NavBar.css";
 import { Link } from "react-scroll";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import "bootstrap/dist/css/bootstrap.css";
+import { useState, useRef } from "react";
 
 function NavBar() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showLetters, setShowLetters] = useState(false);
+  const handleCloseLogin = () => setShowLogin(false);
+  const handleShowLogin = () => setShowLogin(true);
+  const handleCloseLetters = () => setShowLetters(false);
+  const handleShowLetters = () => setShowLetters(true);
+  const [registered, setRegistered] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const [savedLetters, setSavedLetters] = useState([]);
+
+  const login = async () => {
+    const username = usernameRef.current.value;
+    const password = passwordRef.current.value;
+    if (username !== "" && password !== "") {
+      const rawResponse = await fetch("http://localhost:3001/login", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: username, password: password }),
+      });
+      const content = await rawResponse.json();
+      console.log(content);
+
+      if (!content.error) {
+        setLoggedIn(true);
+        handleCloseLogin();
+      }
+      console.log(loggedIn);
+    } else {
+      console.log("Login: Username/password is empty");
+    }
+  };
+
+  const register = async () => {
+    const username = usernameRef.current.value;
+    const password = passwordRef.current.value;
+    console.log(username);
+    if (username !== "" && password !== "") {
+      const rawResponse = await fetch("http://localhost:3001/register", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: "darren", password: password }),
+      });
+      const content = await rawResponse.json();
+      console.log(content);
+      if (!content.error) {
+        setRegistered(true);
+      }
+    } else {
+      console.log("Register: Username/password is empty");
+    }
+  };
+
+  const getSaved = async () => {
+    const rawResponse = await fetch("http://localhost:3001/savedLetters", {
+      method: "GET",
+      credentials: "include",
+    });
+    const content = await rawResponse.json();
+    setSavedLetters(content);
+    handleShowLetters();
+  };
+
   return (
     <nav>
       <Link
@@ -65,7 +139,66 @@ function NavBar() {
             ABOUT
           </Link>
         </li>
+        <li>
+          {loggedIn === false ? (
+            <Button
+              className="login"
+              variant="primary"
+              onClick={handleShowLogin}
+            >
+              LOGIN
+            </Button>
+          ) : (
+            <Button
+              className="savedLetters"
+              variant="primary"
+              onClick={getSaved}
+            >
+              Saved
+            </Button>
+          )}
+        </li>
       </ul>
+      <Modal show={showLogin} onHide={handleCloseLogin}>
+        <Modal.Header closeButton>
+          <Modal.Title>Login</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form className="login">
+            <label>Username</label>
+            <input id="loginUsername" type="text" ref={usernameRef}></input>
+            <label>Password</label>
+            <input id="loginPassword" type="password" ref={passwordRef}></input>
+          </form>
+          {registered && (
+            <Modal.Body className="registerMessage">
+              Successfully Registered
+            </Modal.Body>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={register}>
+            Register
+          </Button>
+          <Button variant="primary" onClick={login}>
+            Login
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showLetters} onHide={handleCloseLetters}>
+        <Modal.Header closeButton>
+          <Modal.Title>Saved Letters</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {savedLetters.map((letter, index) => (
+            <div key={index}>
+              {letter.letterContent}
+              <hr></hr>
+            </div>
+          ))}
+        </Modal.Body>
+      </Modal>
     </nav>
   );
 }

@@ -23,7 +23,7 @@ function CovGen() {
 
     try {
       setLoading(true);
-      
+
       const response = await fetch(
         `${serverURL}/${encodeURIComponent(linkedin)}/${company}`
       );
@@ -32,7 +32,7 @@ function CovGen() {
         alert("Please enter a valid LinkedIn URL.");
         return;
       }
-      setCoverLetter(data.result.replace(/\n/g, '<br>'));
+      setCoverLetter(data.result.replace(/\n/g, "<br>"));
     } catch (err) {
       console.error(err);
     } finally {
@@ -49,6 +49,19 @@ function CovGen() {
     setLinkedin("");
     setCompany("");
     setTypewriterKey((prevKey) => prevKey + 1);
+  };
+
+  const saveLetter = async () => {
+    const rawResponse = await fetch(`${serverURL}/saveLetter`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ letter: coverLetter }),
+    });
+    const content = await rawResponse.json();
+    console.log(content);
   };
 
   return (
@@ -112,7 +125,7 @@ function CovGen() {
             disabled={loading}
           >
             {loading ? (
-              <LoadingIcon className="loading-icon"/> // Use the loaded SVG as a React component
+              <LoadingIcon className="loading-icon" /> // Use the loaded SVG as a React component
             ) : (
               "Generate"
             )}
@@ -134,6 +147,11 @@ function CovGen() {
       {showOutput && (
         <button className="generate-button restart" onClick={resetForm}>
           Restart
+        </button>
+      )}{" "}
+      {showOutput && (
+        <button className="generate-button restart" onClick={saveLetter}>
+          Save Letter
         </button>
       )}
     </Element>
