@@ -9,12 +9,9 @@ const User = require("../models/user");
 const Letter = require("../models/letter");
 
 const requireLogin = async (req, res, next) => {
-  console.log("in requireLogin");
-  console.log(req.session.userId);
   if (!req.session.userId) {
     return res.json({ error: "Not logged in" });
   }
-  console.log(req.session.userId);
   const user = await User.findById(req.session.userId);
   if (user) {
     next();
@@ -26,32 +23,22 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-let jsonData;
-
-fs.readFile("key.json", "utf8", (err, data) => {
-  if (err) {
-    console.error("Error reading the file:", err);
-    return;
-  }
-
-  jsonData = JSON.parse(data);
-});
-
 const baseUrl = "https://www.linkedin.com/in";
 
 const getLinkedInData = async (linkedinUrl) => {
   const options = {
-    method: "GET",
-    url: "https://linkedin-profiles1.p.rapidapi.com/extract",
-    params: {
-      url: linkedinUrl,
-      html: "1",
-    },
+    method: "POST",
+    url: "https://linkedin-data-scraper.p.rapidapi.com/person",
     headers: {
-      "X-RapidAPI-Key": jsonData["rapidAPIKey"],
-      "X-RapidAPI-Host": "linkedin-profiles1.p.rapidapi.com",
+      "content-type": "application/json",
+      "X-RapidAPI-Key": process.env.RAPID_API_KEY,
+      "X-RapidAPI-Host": process.env.RAPID_API_HOST,
+    },
+    data: {
+      link: linkedinUrl,
     },
   };
+
   const response = await axios.request(options);
   return response;
 };
@@ -61,7 +48,6 @@ const generateCoverLetter = async (prompt) => {
     messages: [{ role: "system", content: prompt }],
     model: "gpt-3.5-turbo-16k-0613",
   });
-  console.log(completion.choices[0]);
   return completion.choices[0].message.content;
 };
 
@@ -124,7 +110,6 @@ router.get("/savedLetters", requireLogin, async (req, res) => {
   const userId = req.session.userId;
   try {
     const userLetters = await Letter.find({ userId: userId });
-    console.log(userLetters);
     if (userLetters == null) {
       return res
         .status(404)
@@ -144,57 +129,28 @@ router.get("/:linkedin/:company", async (req, res, next) => {
   }
 
   try {
-    /*
     const linkedinData = await getLinkedInData(linkedin);
-    const extractedData = linkedinData['data']['extractor'];
-    const dataToGPT = {
-      name: extractedData.name,
-      education: extractedData.education,
-      jobTitle: extractedData.jobTitle,
-      worksFor: extractedData.worksFor,
-      description: extractedData.description,
+    if (!linkedinData || !linkedinData.data || !linkedinData.data.data) {
+      throw new Error("LinkedIn data is missing or empty.");
     }
-    */
+    const extractedData = linkedinData.data.data;
     const dataToGPT = {
-      name: "Darren Hoang",
-      education: [
-        {
-          name: "UC Irvine",
-          url: "https://www.linkedin.com/school/university-of-california-irvine/?trk=public_profile_school_profile-section-card_image-click",
-          degree: "Bachelor of Science - BS",
-          field: "Computer Science",
-          activities: null,
-          startDate: "2020",
-          endDate: "2024",
-        },
-      ],
-      jobTitle: ["Software Development Intern"],
-      worksFor: [
-        {
-          "@type": "Organization",
-          name: "Charge Collective",
-          url: "https://www.linkedin.com/company/chargecollective?trk=ppro_cprof",
-          member: {
-            "@type": "OrganizationRole",
-            startDate: "2023-10",
-          },
-        },
-      ],
-      description:
-        "Hi there! 👋🏽<br><br>I'm Darren and I’m At UCI majoring in computer science! I’m a hardworking student with strong leadership skills who has a passion for software and creating valuable insights through data. I’m looking for opportunities in data analysis, data science, and software engineering to sharpen my technical skills and learn industry practices.<br><br>Some of my interests!<br>- golf, volleyball, basketball<br>- anime<br>- escape rooms<br>- mechanical keyboards<br><br>For any inquiries or just to talk! <br>darrenhoang12@gmail.com",
+      name: extractedData.fullName || "",
+      education: extractedData.educations || [],
+      experience: extractedData.experiences || [],
     };
+
     let educationStr = "";
-    let jobStr = "";
+    let experienceStr = "";
     for (const edu of dataToGPT.education) {
-      educationStr += `${edu.degree} ${edu.field} ${edu.name},`;
+      educationStr += `${edu.subtitle} ${edu.title},`;
     }
-    for (let i = 0; i < dataToGPT.jobTitle.length; i++) {
-      const job = dataToGPT.jobTitle[i];
-      const company = dataToGPT.worksFor[i];
-      jobStr += `${job} at ${company.name},`;
+    for (const exp of dataToGPT.experience) {
+      const jobTitle = exp.title;
+      const company = exp.subtitle.split("·")[0];
+      experienceStr += `${jobTitle} at ${company},`;
     }
-    const gptPrompt = `name: ${dataToGPT.name} education: ${educationStr} job experience: ${jobStr} write a cover letter for ${company}. No heading.`;
-    console.log(gptPrompt);
+    const gptPrompt = `name: ${dataToGPT.name} education: ${educationStr} job experience: ${experienceStr} write a cover letter for ${company}. No heading.`;
     const coverLetter = await generateCoverLetter(gptPrompt);
     res.json({ result: coverLetter });
   } catch (err) {
