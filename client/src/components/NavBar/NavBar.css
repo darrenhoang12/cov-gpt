@@ -91,3 +91,8 @@ nav h1 {
   text-align: center;
   color: green;
 }
+
+.saved-modal {
+  max-width: none !important;
+  width: 60% !important;
+}

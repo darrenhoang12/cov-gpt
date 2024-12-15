@@ -159,7 +159,11 @@ function NavBar() {
           )}
         </li>
       </ul>
-      <Modal show={showLogin} onHide={handleCloseLogin}>
+      <Modal
+        show={showLogin}
+        onHide={handleCloseLogin}
+        dialogClassName="saved-modal"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
@@ -186,13 +190,17 @@ function NavBar() {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showLetters} onHide={handleCloseLetters}>
+      <Modal
+        show={showLetters}
+        onHide={handleCloseLetters}
+        dialogClassName="saved-modal"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Saved Letters</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {savedLetters.map((letter, index) => (
-            <div key={index}>
+            <div key={index} className="modal-letter">
               {letter.letterContent}
               <hr></hr>
             </div>

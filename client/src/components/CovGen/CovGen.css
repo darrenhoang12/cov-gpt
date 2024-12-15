@@ -40,7 +40,7 @@ input {
   height: 30px;
   border: 1px solid #ccc;
   padding: 5px;
-  border-radius: 0 5px 5px 0;
+  border-radius: 5px;
   font-family: Poppins;
 }
 
@@ -66,7 +66,7 @@ input {
 }
 
 .restart {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .input-icon {
@@ -144,7 +144,7 @@ input {
 .loading-icon {
   width: 20px;
   height: 20px;
-  color: #D3D3D3;
+  color: #d3d3d3;
   fill: #818589;
   animation: rotate 0.75s linear infinite;
 }
@@ -152,8 +152,12 @@ input {
 @keyframes rotate {
   from {
     transform: rotate(0deg);
-  } to {
+  }
+  to {
     transform: rotate(360deg);
   }
 }
 
+.char-limit {
+  font-size: 0.75em;
+}
