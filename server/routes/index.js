@@ -46,14 +46,14 @@ const getLinkedInData = async (linkedinUrl) => {
 const generateCoverLetter = async (prompt) => {
   const completion = await openai.chat.completions.create({
     messages: [{ role: "system", content: prompt }],
-    model: "gpt-3.5-turbo-16k-0613",
+    model: "gpt-3.5-turbo",
   });
   return completion.choices[0].message.content;
 };
 
 /* GET home page. */
 router.get("/", (req, res, next) => {
-  res.render("index", { title: "your_page_title" });
+  res.render("index", { title: "Cover Letter GPT" });
 });
 
 router.post("/register", async (req, res) => {
@@ -86,8 +86,12 @@ router.post("/login", async (req, res) => {
     return res.status(401).json({ error: "Invalid username or password." });
   }
 
-  req.session.userId = user._id;
-  res.status(200).json({ message: "Successful login" });
+  try {
+    req.session.userId = user._id;
+    res.status(200).json({ message: "Successful login" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 router.post("/saveLetter", requireLogin, async (req, res) => {
@@ -124,8 +128,7 @@ router.get("/savedLetters", requireLogin, async (req, res) => {
 router.get("/:linkedin/:company", async (req, res, next) => {
   const { linkedin, company } = req.params;
   if (!linkedin.includes(baseUrl)) {
-    res.json({ linkedin: "invalid_url" });
-    return;
+    return res.status(400).json({ linkedin: "invalid_url" });
   }
 
   try {
@@ -155,6 +158,7 @@ router.get("/:linkedin/:company", async (req, res, next) => {
     res.json({ result: coverLetter });
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ error: "Error generating cover letter" });
   }
 });
 
