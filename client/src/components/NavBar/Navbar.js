@@ -17,6 +17,7 @@ function NavBar() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const [savedLetters, setSavedLetters] = useState([]);
+  const [loginError, setLoginError] = useState(false);
 
   const login = async () => {
     const username = usernameRef.current.value;
@@ -31,14 +32,16 @@ function NavBar() {
         body: JSON.stringify({ username: username, password: password }),
       });
       const content = await rawResponse.json();
-      console.log(content);
-
+      console.log(content.error);
       if (!content.error) {
         setLoggedIn(true);
         handleCloseLogin();
+        setLoginError(false);
+      } else {
+        setLoginError(true);
       }
-      console.log(loggedIn);
     } else {
+      setLoginError(true);
       console.log("Login: Username/password is empty");
     }
   };
@@ -181,12 +184,21 @@ function NavBar() {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={register}>
-            Register
-          </Button>
-          <Button variant="primary" onClick={login}>
-            Login
-          </Button>
+          <div className="footer">
+            {loginError && (
+              <div className="invalid-login">
+                Incorrect username or password
+              </div>
+            )}
+            <div className="login-buttons">
+              <Button variant="secondary" onClick={register}>
+                Register
+              </Button>
+              <Button variant="primary" onClick={login}>
+                Login
+              </Button>
+            </div>
+          </div>
         </Modal.Footer>
       </Modal>
 

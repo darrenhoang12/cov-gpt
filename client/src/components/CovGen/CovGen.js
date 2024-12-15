@@ -24,7 +24,7 @@ function CovGen() {
 
     try {
       setLoading(true);
-
+      /*
       const response = await fetch(
         `${serverURL}/${encodeURIComponent(linkedin.trim())}/${company.trim()}`
       );
@@ -34,6 +34,10 @@ function CovGen() {
         return;
       }
       setCoverLetter(data.result.replace(/\n/g, "<br>"));
+      */
+      setCoverLetter(
+        "Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager"
+      );
       setShowOutput(true);
       setTypewriterKey((prevKey) => prevKey + 1);
     } catch (err) {
@@ -115,11 +119,10 @@ function CovGen() {
         <Typewriter
           key={typewriterKey}
           onInit={(typewriter) => {
-            typewriter.pauseFor(500).typeString(coverLetter).start();
+            typewriter.pauseFor(250).typeString(coverLetter).start();
           }}
           options={{
-            speed: 75,
-            delay: 15,
+            delay: 0,
           }}
         />
       </div>

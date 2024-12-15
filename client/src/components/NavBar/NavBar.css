@@ -96,3 +96,27 @@ nav h1 {
   max-width: none !important;
   width: 60% !important;
 }
+
+.invalid-login {
+  text-align: left;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.invalid-login {
+  color: red;
+  font-weight: bold;
+}
+
+.login-buttons {
+  display: flex;
+  gap: 0.2em;
+}
+
+.footer div:only-child {
+  margin-left: auto;
+}
