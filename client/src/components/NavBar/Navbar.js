@@ -166,6 +166,7 @@ function NavBar() {
         show={showLogin}
         onHide={handleCloseLogin}
         dialogClassName="saved-modal"
+        id="register-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
@@ -206,6 +207,7 @@ function NavBar() {
         show={showLetters}
         onHide={handleCloseLetters}
         dialogClassName="saved-modal"
+        id="saved-letters-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Saved Letters</Modal.Title>

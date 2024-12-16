@@ -3,6 +3,7 @@ import { Element } from "react-scroll";
 import React, { useState } from "react";
 import Typewriter from "typewriter-effect";
 import { ReactComponent as LoadingIcon } from "./loading.svg";
+import Modal from "react-bootstrap/Modal";
 
 function CovGen() {
   const serverURL = "http://localhost:3001";
@@ -13,6 +14,8 @@ function CovGen() {
   const [coverLetter, setCoverLetter] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorModalMessage, setErrorModalMessage] = useState("");
+  const handleCloseModal = () => setError(false);
 
   const generateLetter = async (e) => {
     e.preventDefault();
@@ -41,14 +44,14 @@ function CovGen() {
         })
         .catch((err) => {
           setError(true);
-          alert(err.message);
+          setErrorModalMessage(err.message);
         })
         .finally(() => {
           setLoading(false);
         });
     } catch (err) {
       setError(true);
-      alert(err);
+      setErrorModalMessage(err.message);
     } finally {
       setLoading(false);
     }
@@ -77,6 +80,14 @@ function CovGen() {
 
   return (
     <Element name="covgen" className="covgen">
+      <Modal show={error} onHide={handleCloseModal} id="error-modal">
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div id="error-message">{errorModalMessage}</div>
+        </Modal.Body>
+      </Modal>
       <div className="form-container">
         <form>
           <div className="form-element">
