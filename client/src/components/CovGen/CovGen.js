@@ -17,33 +17,38 @@ function CovGen() {
   const generateLetter = async (e) => {
     e.preventDefault();
 
-    if (!linkedin || !company) {
-      alert("Please fill in both LinkedIn and Company fields.");
-      return;
-    }
-
     try {
-      setLoading(true);
-      /*
-      const response = await fetch(
-        `${serverURL}/${encodeURIComponent(linkedin.trim())}/${company.trim()}`
-      );
-      const data = await response.json();
-      if (data.linkedin === "invalid_url") {
-        alert("Please enter a valid LinkedIn URL.");
-        return;
+      if (!linkedin || !company) {
+        throw new Error("Please fill in both LinkedIn and Company fields");
       }
-      setCoverLetter(data.result.replace(/\n/g, "<br>"));
-      */
-      setCoverLetter(
-        "Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager Dear Hiring Manager"
-      );
-      setShowOutput(true);
-      setTypewriterKey((prevKey) => prevKey + 1);
+      setLoading(true);
+      fetch(
+        `${serverURL}/${encodeURIComponent(linkedin.trim())}/${company.trim()}`
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            return res.json().then((errorData) => {
+              throw new Error(errorData.error || "Something went wrong");
+            });
+          }
+        })
+        .then((data) => {
+          setCoverLetter(data.result.replace(/\n/g, "<br>"));
+          setShowOutput(true);
+          setTypewriterKey((prevKey) => prevKey + 1);
+        })
+        .catch((err) => {
+          setError(true);
+          alert(err.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } catch (err) {
-      console.error(err);
       setError(true);
-      alert("Error generating Cover Letter");
+      alert(err);
     } finally {
       setLoading(false);
     }

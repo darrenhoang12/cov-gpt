@@ -128,23 +128,25 @@ router.get("/savedLetters", requireLogin, async (req, res) => {
 router.get("/:linkedin/:company", async (req, res, next) => {
   const { linkedin, company } = req.params;
   if (!linkedin.includes(baseUrl)) {
-    return res.status(400).json({ linkedin: "invalid_url" });
+    return res.status(400).send({ error: "Please enter a valid Linkedin URL" });
   }
 
+  // Scrape Linkedin profile data
+  let dataToGPT;
+  let educationStr = "";
+  let experienceStr = "";
   try {
     const linkedinData = await getLinkedInData(linkedin);
     if (!linkedinData || !linkedinData.data || !linkedinData.data.data) {
       throw new Error("LinkedIn data is missing or empty.");
     }
     const extractedData = linkedinData.data.data;
-    const dataToGPT = {
+    dataToGPT = {
       name: extractedData.fullName || "",
       education: extractedData.educations || [],
       experience: extractedData.experiences || [],
     };
 
-    let educationStr = "";
-    let experienceStr = "";
     for (const edu of dataToGPT.education) {
       educationStr += `${edu.subtitle} ${edu.title},`;
     }
@@ -153,12 +155,21 @@ router.get("/:linkedin/:company", async (req, res, next) => {
       const company = exp.subtitle.split("·")[0];
       experienceStr += `${jobTitle} at ${company},`;
     }
+  } catch (err) {
+    return res
+      .status(err.response.status)
+      .send({ error: "Error collecting LinkedIn data" });
+  }
+
+  // Generate the letter
+  try {
     const gptPrompt = `name: ${dataToGPT.name} education: ${educationStr} job experience: ${experienceStr} write a cover letter for ${company}. No heading.`;
     const coverLetter = await generateCoverLetter(gptPrompt);
-    res.json({ result: coverLetter });
+    return res.status(200).json({ result: coverLetter });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ error: "Error generating cover letter" });
+    return res.status(err.status).send({
+      error: "Error generating cover letter",
+    });
   }
 });
 
