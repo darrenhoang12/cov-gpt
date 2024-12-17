@@ -65,6 +65,23 @@ input {
   background-color: #005ba4;
 }
 
+.disabled-button {
+  background-color: gray;
+  font-weight: bold;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 25px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  width: 150px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .restart {
   margin-top: 30px;
 }

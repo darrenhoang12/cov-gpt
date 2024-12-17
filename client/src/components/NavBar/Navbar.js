@@ -157,7 +157,7 @@ function NavBar() {
               variant="primary"
               onClick={getSaved}
             >
-              Saved
+              SAVED
             </Button>
           )}
         </li>

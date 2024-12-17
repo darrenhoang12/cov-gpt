@@ -19,12 +19,12 @@ function CovGen() {
 
   const generateLetter = async (e) => {
     e.preventDefault();
-
+    await setLoading(true);
+    console.log(loading)
     try {
       if (!linkedin || !company) {
         throw new Error("Please fill in both LinkedIn and Company fields");
       }
-      setLoading(true);
       fetch(
         `${serverURL}/${encodeURIComponent(linkedin.trim())}/${company.trim()}`
       )
@@ -47,12 +47,11 @@ function CovGen() {
           setErrorModalMessage(err.message);
         })
         .finally(() => {
-          setLoading(false);
-        });
+          setLoading(false)
+        })
     } catch (err) {
       setError(true);
       setErrorModalMessage(err.message);
-    } finally {
       setLoading(false);
     }
   };
@@ -95,7 +94,7 @@ function CovGen() {
             <div className="input-element">
               <input
                 type="text"
-                className="linkedin"
+                id="linkedin"
                 placeholder="https://linkedin.com/in/John-Doe"
                 maxLength="100"
                 value={linkedin}
@@ -109,7 +108,7 @@ function CovGen() {
             <div className="input-element">
               <input
                 type="text"
-                className="company"
+                id="company"
                 placeholder="Experian"
                 maxLength="25"
                 value={company}
@@ -119,9 +118,9 @@ function CovGen() {
             <label className="char-limit">Max 25 characters</label>
           </div>
           <button
-            className="generate-button"
+            className={(loading || showOutput) ? "disabled-button" : "generate-button"} 
             onClick={generateLetter}
-            disabled={loading}
+            disabled={loading || showOutput}
           >
             {loading ? (
               <LoadingIcon className="loading-icon" /> // Use the loaded SVG as a React component
