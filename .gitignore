@@ -26,5 +26,5 @@ yarn-error.log*
 key.json
 .env
 venv
-test/__pycache__
+__pycache__
 .pytest_cache
