@@ -5,7 +5,7 @@ import Typewriter from "typewriter-effect";
 import { ReactComponent as LoadingIcon } from "./loading.svg";
 import Modal from "react-bootstrap/Modal";
 
-function CovGen() {
+function CovGen({loggedIn}) {
   const serverURL = "http://localhost:3001";
   const [linkedin, setLinkedin] = useState("");
   const [company, setCompany] = useState("");
@@ -20,7 +20,6 @@ function CovGen() {
   const generateLetter = async (e) => {
     e.preventDefault();
     await setLoading(true);
-    console.log(loading)
     try {
       if (!linkedin || !company) {
         throw new Error("Please fill in both LinkedIn and Company fields");
@@ -65,16 +64,19 @@ function CovGen() {
   };
 
   const saveLetter = async () => {
-    const rawResponse = await fetch(`${serverURL}/saveLetter`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ letter: coverLetter }),
-    });
-    const content = await rawResponse.json();
-    console.log(content);
+    if (loggedIn) {
+      await fetch(`${serverURL}/saveLetter`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ letter: coverLetter }),
+      });
+    } else {
+      setError(true);
+      setErrorModalMessage("Not logged in")
+    }
   };
 
   return (

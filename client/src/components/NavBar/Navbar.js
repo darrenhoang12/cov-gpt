@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import { useState, useRef } from "react";
+import Home from "../Home/Home";
 
 function NavBar() {
   const [showLogin, setShowLogin] = useState(false);
@@ -80,148 +81,151 @@ function NavBar() {
   };
 
   return (
-    <nav>
-      <Link
-        className="link logo"
-        activeClass="active"
-        to="landing"
-        spy={true}
-        smooth={true}
-        offset={0}
-        duration={500}
-        style={{
-          cursor: "pointer",
-        }}
-      >
-        CovGPT
-      </Link>
-      <ul className="menu">
-        <li>
-          <Link
-            className="link"
-            activeClass="active"
-            to="landing"
-            spy={true}
-            smooth={true}
-            offset={0}
-            duration={500}
-            style={{
-              cursor: "pointer",
-            }}
-          >
-            HOME
-          </Link>
-        </li>
-        <li>
-          <Link
-            activeClass="active"
-            to="covgen"
-            spy={true}
-            smooth={true}
-            offset={0}
-            duration={500}
-            style={{
-              cursor: "pointer",
-            }}
-          >
-            GENERATE
-          </Link>
-        </li>
-        <li>
-          <Link
-            activeClass="active"
-            to="about"
-            spy={true}
-            smooth={true}
-            offset={0}
-            duration={500}
-            style={{
-              cursor: "pointer",
-            }}
-          >
-            ABOUT
-          </Link>
-        </li>
-        <li>
-          {loggedIn === false ? (
-            <Button
-              className="login"
-              variant="primary"
-              onClick={handleShowLogin}
+    <div>
+      <nav>
+        <Link
+          className="link logo"
+          activeClass="active"
+          to="landing"
+          spy={true}
+          smooth={true}
+          offset={0}
+          duration={500}
+          style={{
+            cursor: "pointer",
+          }}
+        >
+          CovGPT
+        </Link>
+        <ul className="menu">
+          <li>
+            <Link
+              className="link"
+              activeClass="active"
+              to="landing"
+              spy={true}
+              smooth={true}
+              offset={0}
+              duration={500}
+              style={{
+                cursor: "pointer",
+              }}
             >
-              LOGIN
-            </Button>
-          ) : (
-            <Button
-              className="savedLetters"
-              variant="primary"
-              onClick={getSaved}
+              HOME
+            </Link>
+          </li>
+          <li>
+            <Link
+              activeClass="active"
+              to="covgen"
+              spy={true}
+              smooth={true}
+              offset={-200}
+              duration={500}
+              style={{
+                cursor: "pointer",
+              }}
             >
-              SAVED
-            </Button>
-          )}
-        </li>
-      </ul>
-      <Modal
-        show={showLogin}
-        onHide={handleCloseLogin}
-        dialogClassName="saved-modal"
-        id="register-modal"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form className="login">
-            <label>Username</label>
-            <input id="loginUsername" type="text" ref={usernameRef}></input>
-            <label>Password</label>
-            <input id="loginPassword" type="password" ref={passwordRef}></input>
-          </form>
-          {registered && (
-            <Modal.Body className="registerMessage">
-              Successfully Registered
-            </Modal.Body>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <div className="footer">
-            {loginError && (
-              <div className="invalid-login">
-                Incorrect username or password
-              </div>
+              GENERATE
+            </Link>
+          </li>
+          <li>
+            <Link
+              activeClass="active"
+              to="about"
+              spy={true}
+              smooth={true}
+              offset={0}
+              duration={500}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              ABOUT
+            </Link>
+          </li>
+          <li>
+            {loggedIn === false ? (
+              <Button
+                className="login"
+                variant="primary"
+                onClick={handleShowLogin}
+              >
+                LOGIN
+              </Button>
+            ) : (
+              <Button
+                className="savedLetters"
+                variant="primary"
+                onClick={getSaved}
+              >
+                SAVED
+              </Button>
             )}
-            <div className="login-buttons">
-              <Button variant="secondary" onClick={register}>
-                Register
-              </Button>
-              <Button variant="primary" onClick={login}>
-                Login
-              </Button>
+          </li>
+        </ul>
+        <Modal
+          show={showLogin}
+          onHide={handleCloseLogin}
+          dialogClassName="saved-modal"
+          id="register-modal"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Login</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form className="login">
+              <label>Username</label>
+              <input id="loginUsername" type="text" ref={usernameRef}></input>
+              <label>Password</label>
+              <input id="loginPassword" type="password" ref={passwordRef}></input>
+            </form>
+            {registered && (
+              <Modal.Body className="registerMessage">
+                Successfully Registered
+              </Modal.Body>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <div className="footer">
+              {loginError && (
+                <div className="invalid-login">
+                  Incorrect username or password
+                </div>
+              )}
+              <div className="login-buttons">
+                <Button variant="secondary" onClick={register}>
+                  Register
+                </Button>
+                <Button variant="primary" onClick={login}>
+                  Login
+                </Button>
+              </div>
             </div>
-          </div>
-        </Modal.Footer>
-      </Modal>
+          </Modal.Footer>
+        </Modal>
 
-      <Modal
-        show={showLetters}
-        onHide={handleCloseLetters}
-        dialogClassName="saved-modal"
-        id="saved-letters-modal"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Saved Letters</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {savedLetters.map((letter, index) => (
-            <div key={index} className="modal-letter">
-              {letter.letterContent}
-              <hr></hr>
-            </div>
-          ))}
-        </Modal.Body>
-      </Modal>
-    </nav>
+        <Modal
+          show={showLetters}
+          onHide={handleCloseLetters}
+          dialogClassName="saved-modal"
+          id="saved-letters-modal"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Saved Letters</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {savedLetters.map((letter, index) => (
+              <div key={index} className="modal-letter">
+                {letter.letterContent}
+                <hr></hr>
+              </div>
+            ))}
+          </Modal.Body>
+        </Modal>
+      </nav>
+    <Home loggedIn={loggedIn}/>
+    </div>
   );
 }
 
